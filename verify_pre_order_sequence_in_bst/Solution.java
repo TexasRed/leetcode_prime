@@ -14,6 +14,7 @@ Could you do it using only constant space complexity?
  */
 
 public class Solution {
+    // O(n) time O(1) space
     public boolean verifyPreorder(int[] preorder) {
         if (preorder == null || preorder.length == 0) return true;
         int low = Integer.MIN_VALUE, i = -1;
@@ -26,7 +27,7 @@ public class Solution {
         }
         return true;
     }
-    
+    // O(n) time O(h) space
     public boolean verifyPreorder2(int[] preorder) {
         int low = Integer.MIN_VALUE;
         Stack<Integer> path = new Stack();
@@ -39,4 +40,20 @@ public class Solution {
         }
         return true;
     }
+    
+    // O(n^2) time O(1) space - brute force
+    public boolean validTree(int[] preorder, int start, int end) {
+        if (start >= end) return true;  
+        int i = start + 1;  
+        while (i <= end && preorder[i] < preorder[start])  
+            i++;  
+        if (!validTree(preorder, start + 1, i - 1))  
+            return false;  
+        int rightStart = i;  
+        while (i <= end && preorder[i] > preorder[start])  
+            i++;  
+        if (i <= end) return false;  
+        return validTree(preorder, rightStart, end);  
+    }
+
 }

@@ -102,7 +102,7 @@ public class Solution {
         return popped.val;
     }
     
-    // maxHeap, O(k + nlgk) time, O(k) space
+    // sliding window + queue, O(n) time, O(max(h, k)) space
     public List<Integer> sliding_window(TreeNode root, double target, int k) {
         Queue<Integer> klist = new LinkedList<Integer>();
         Stack<TreeNode> stk = new Stack<TreeNode>();

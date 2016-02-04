@@ -47,7 +47,27 @@ public class Codec {
 	}
 
 	// Decodes a single string to a list of strings.
-	public List<String> decode(String s) {
+    public List<String> decode(String s) {
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < s.length();) {
+            char c = s.charAt(i);
+            if (!Character.isDigit(c)) {
+                break;
+            } else {
+                int len = 0;
+                while (Character.isDigit(s.charAt(i))) {
+                    len = len * 10 + s.charAt(i) - '0';
+                    i++;
+                }
+                result.add(s.substring(i + 1, i + 1 + len));
+                i = i + 1 + len;
+            } 
+        }
+        return result;
+    }
+
+	// Decodes a single string to a list of strings.
+	public List<String> decode2(String s) {
 		List<String> result = new ArrayList<>();
 		int len = 0; boolean inLength = true;
 		int i = 0;

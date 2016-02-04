@@ -31,6 +31,57 @@ class ResultType {
 }
 public class Solution {
     
+    // Recursive BST search O(h) time, O(h) space
+    public int closestValue(TreeNode root, double target) {
+        TreeNode subtree = (target > root.val) ? root.right : root.left;
+        if (subtree == null) return root.val;
+        int subClosest = closestValue(subtree, target);
+        return Math.abs((double) root.val - target) < Math.abs((double) subClosest - target) ? root.val : subClosest;
+    }
+    
+    // Iterative BST search O(h) time, O(h) space
+    public int closestValueIterative(TreeNode root, double target) {
+       double closest = Double.MAX_VALUE;
+       while (root != null) {
+           double currDiff = Math.abs((double) root.val - target);
+           if (currDiff < Math.abs(closest - target)) {
+               closest = (double) root.val;
+           }
+           if ((double) root.val == target) {
+               return root.val;
+           } else if ((double) root.val < target) {
+               root = root.right;
+           } else {
+               root = root.left;
+           }
+       }
+       return (int) closest;
+    } 
+    
+    // Iterate the tree by stack O(n) time O(lgn) space
+    public int closestValueNaive(TreeNode root, double target) {
+        TreeNode result = null;
+        TreeNode top = root;
+        double minDiff = Double.MAX_VALUE;
+        Stack<TreeNode> stack = new Stack<>();
+        while (top != null || !stack.isEmpty()) {
+            while (top != null) {
+                stack.push(top);
+                top = top.left;
+            }
+            top = stack.pop();
+            double diff = Math.abs((double) top.val - target);
+            if (diff == 0) return top.val;
+            if (diff < minDiff) {
+                minDiff = diff;
+                result = top;
+            }
+            top = top.right;
+        }
+        return result.val;
+    }
+
+    // pre-order traversal O(n) time O(n) space
     public int closestValue(TreeNode root, double target) {
        ResultType rt = helper(root, target, Double.MAX_VALUE, -1);
        return rt.val;

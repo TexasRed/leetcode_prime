@@ -53,3 +53,36 @@ public class Solution {
         return result;
     }
 }
+
+public class Solution {
+    public List<List<String>> groupStrings(String[] strings) {
+        List<List<String>> result = new ArrayList<>();
+        if (strings == null || strings.length == 0) return result;
+        Map<String, List<String>> hash = new HashMap<>();
+        for (String str : strings) {
+            String code = generateCode(str);
+            if (!hash.containsKey(code)) {
+                hash.put(code, new ArrayList<>());
+            }
+            hash.get(code).add(str);
+        }
+        for (List<String> strs : hash.values()) {
+            Collections.sort(strs);
+            result.add(strs);
+        }
+        return result;
+    }
+    
+    public String generateCode(String str) {
+        if (str == null || str.length() == 0) return str;
+        StringBuilder sb = new StringBuilder();
+        char norm = str.charAt(0);
+        for (int i = 0; i < str.length(); i++) {
+            // az <=> yx
+            // ab <=> yx
+            sb.append((str.charAt(i) + 26 - norm) % 26);
+            sb.append('#');
+        }
+        return sb.toString();
+    }
+}

@@ -47,3 +47,25 @@ public class Solution {
         return true;
     }
 }
+
+
+public class Solution {
+    public boolean canAttendMeetings(Interval[] intervals) {
+        if (intervals == null || intervals.length < 2) return true;
+        List<Interval> list = new ArrayList<>(Arrays.asList(intervals));
+        
+        Collections.sort(list, new Comparator<Interval>(){
+           public int compare(Interval itv1, Interval itv2) {
+               return itv1.start - itv2.start;
+           } 
+        });
+        
+        Interval prev = list.get(0);
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i).start < prev.end)
+                return false;
+            prev = list.get(i);
+        }
+        return true;
+    }
+}

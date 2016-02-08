@@ -73,3 +73,50 @@ public class Solution {
         }
     }
 }
+
+
+public class Solution {
+    public void wallsAndGates(int[][] rooms) {
+        if (rooms == null || rooms.length == 0 || rooms[0].length == 0) return;
+        int m = rooms.length; int n = rooms[0].length;
+        boolean[][] visited = new boolean[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (rooms[i][j] == 0) {
+                    bfs(rooms, i, j, visited);
+                    // clear the visited array
+                    for (int row = 0; row < m; row++)
+                        Arrays.fill(visited[row], false);
+                }
+            }
+        }
+    }
+    
+    public void bfs(int[][] rooms, int i, int j, boolean[][] visited) {
+        int m = rooms.length; int n = rooms[0].length;
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, -1, 0, 1};
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(i * n + j);
+        visited[i][j] = true;
+        int level = 0;
+        while (!queue.isEmpty()) {
+            level++;
+            int size = queue.size();
+            for (int p = 0; p < size; p++) {
+                int pos = queue.poll();
+                int currX = pos / n;
+                int currY = pos % n;
+                for (int k = 0; k < 4; k++) {
+                    int x = currX + dx[k];
+                    int y = currY + dy[k];
+                    if (x >= 0 && x < m && y >= 0 && y < n && !visited[x][y] && rooms[x][y] > 0) {
+                        rooms[x][y] = Math.min(rooms[x][y], level);
+                        visited[x][y] = true;
+                        queue.offer(x * n + y);
+                    }
+                }
+            }
+        }
+    }
+}

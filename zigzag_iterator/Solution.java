@@ -71,3 +71,42 @@ public class ZigzagIterator {
  * ZigzagIterator i = new ZigzagIterator(v1, v2);
  * while (i.hasNext()) v[f()] = i.next();
  */
+
+public class ZigzagIterator {
+    
+    List<Iterator<Integer>> iterators;
+    int idx = 0;
+    public ZigzagIterator(List<Integer> v1, List<Integer> v2) {
+        iterators = new ArrayList<>();
+        Iterator<Integer> itr1 = v1.iterator();
+        Iterator<Integer> itr2 = v2.iterator();
+        if (itr1 != null && itr1.hasNext())
+            iterators.add(itr1);
+        if (itr2 != null && itr2.hasNext())
+            iterators.add(itr2);
+    }
+
+    public int next() {
+        Iterator<Integer> itr = iterators.get(idx);
+        int retval = itr.next();
+        if (itr.hasNext()) {
+            idx = (idx + 1) % iterators.size();
+        } else {
+            iterators.remove(idx);
+            if (idx == iterators.size()) {
+                idx = 0;
+            }
+        }
+        return retval;
+    }
+
+    public boolean hasNext() {
+        return !iterators.isEmpty();
+    }
+}
+
+/**
+ * Your ZigzagIterator object will be instantiated and called as such:
+ * ZigzagIterator i = new ZigzagIterator(v1, v2);
+ * while (i.hasNext()) v[f()] = i.next();
+ */

@@ -111,3 +111,74 @@ public class Solution {
         }
     }
 }
+
+
+
+public class Solution {
+    public List<String> generatePalindromes(String s) {
+        List<String> result = new ArrayList<>();
+        if (s == null || s.length() == 0) return result;
+        Map<Character, Integer> hash = new HashMap<>();
+        if (!canPalindrome(hash, s)) return result;
+        StringBuilder sb = new StringBuilder();
+        String mid = "";
+        for (Map.Entry<Character, Integer> entry : hash.entrySet()) {
+            char c = entry.getKey();
+            int count = entry.getValue();
+            if ((count & 1) == 1)
+                mid = Character.toString(c);
+            for (int i = 0; i < count / 2; i++) {
+                sb.append(c);
+            }
+        }
+        char[] arr = sb.toString().toCharArray();
+        Arrays.sort(arr);
+        sb = new StringBuilder();
+        boolean[] visited = new boolean[arr.length];
+        List<String> halfs = new ArrayList<>();
+        helper(arr, halfs, sb, visited);
+        
+        for (String half : halfs) {
+            String rhalf = new StringBuilder(half).reverse().toString();
+            String candidate = half + mid + rhalf;
+            result.add(candidate);
+        }
+        return result;
+    }
+    
+    public void helper(char[] A, List<String> result, StringBuilder sb, boolean[] visited) {
+        int n = A.length;
+        if (sb.length() == n) {
+            result.add(sb.toString());
+            return;
+        }
+        for (int i = 0; i < n; i++) {
+            if (visited[i]) continue;
+            if (i > 0 && A[i] == A[i - 1] && !visited[i - 1]) continue;
+            sb.append(A[i]);
+            visited[i] = true;
+            helper(A, result, sb, visited);
+            visited[i] = false;
+            sb.setLength(sb.length() - 1);
+        }
+    }
+    
+    public boolean canPalindrome(Map<Character, Integer> hash, String s) {
+        if (s == null) return false;
+        if (s.length() == 0) return true;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (!hash.containsKey(c)) {
+                hash.put(c, 1);
+            } else {
+                hash.put(c, hash.get(c) + 1);
+            }
+        }
+        int oddNumCount = 0;
+        for (Integer count : hash.values()) {
+            if ((count & 1) == 1)
+                oddNumCount++;
+        }
+        return oddNumCount <= 1;
+    }
+}

@@ -75,3 +75,34 @@ public class Solution {
         return new ArrayList<>(result);
     }
 }
+
+
+public class Solution {
+    public List<List<Integer>> getFactors(int n) {
+        List<List<Integer>> result = new ArrayList<>();
+        Set<List<Integer>> ans = new HashSet<>();
+        List<Integer> row = new ArrayList<>();
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
+                List<List<Integer>> list1 = getFactors(i);
+                List<List<Integer>> list2 = getFactors(n / i);
+                List<Integer> leftProduct = new ArrayList<>();
+                leftProduct.add(i);
+                list1.add(leftProduct);
+                List<Integer> rightProduct = new ArrayList<>();
+                rightProduct.add(n / i);
+                list2.add(rightProduct);
+                for (List<Integer> left : list1) {
+                    for (List<Integer> right : list2) {
+                        row = new ArrayList<>(left);
+                        row.addAll(right);
+                        Collections.sort(row);
+                        ans.add(row);
+                    }
+                }
+            }
+        }
+        result = new ArrayList<>(ans);
+        return result;
+    }
+}

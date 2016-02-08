@@ -41,4 +41,21 @@ public class Solution {
         }
         return minDist;
     }
+    
+    
+    public int shortestWordDistance(String[] words, String word1, String word2) {
+        if (words == null || words.length < 2) return Integer.MAX_VALUE;
+        int n = words.length;
+        int prev = -1;
+        int minDistance = Integer.MAX_VALUE;
+        for (int i = 0; i < n; i++) {
+            if (words[i].equals(word1) || words[i].equals(word2)) {
+                if (prev != - 1 && (words[i].equals(word1) && words[prev].equals(word2) || words[i].equals(word2) && words[prev].equals(word1))) {
+                    minDistance = Math.min(minDistance, i - prev);
+                }
+                prev = i;
+            }
+        }
+        return minDistance;
+    }
 }

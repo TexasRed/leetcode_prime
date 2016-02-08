@@ -38,3 +38,32 @@ public class Solution {
         
     }
 }
+
+public class Solution {
+    public int minCostII(int[][] costs) {
+        if (costs == null || costs.length == 0 || costs[0].length == 0) return 0;
+        int n = costs.length;
+        int k = costs[0].length;
+        int prevId = -1;
+        int prevFirstMin = 0, prevSecondMin = 0;
+        for (int i = 0; i < n; i++) {
+            int currFirstMin = Integer.MAX_VALUE;
+            int currSecondMin = Integer.MAX_VALUE;
+            int currId = -1;
+            for (int j = 0; j < k; j++) {
+                costs[i][j] = costs[i][j] + (j == prevId ? prevSecondMin : prevFirstMin);
+                if (costs[i][j] < currFirstMin) {
+                    currSecondMin = currFirstMin;
+                    currFirstMin = costs[i][j];
+                    currId = j;
+                } else if (costs[i][j] < currSecondMin) {
+                    currSecondMin = costs[i][j];
+                }
+            }
+            prevFirstMin = currFirstMin;
+            prevSecondMin = currSecondMin;
+            prevId = currId;
+        }
+        return prevFirstMin;
+    }
+}

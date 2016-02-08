@@ -98,3 +98,58 @@ public class Solution {
         }
     }
 }
+
+public class Solution {
+    public List<Integer> numIslands2(int m, int n, int[][] positions) {
+        List<Integer> result = new ArrayList<>();
+        if (positions == null || positions.length == 0) return result;
+        int[] parent = new int[m * n];
+        Arrays.fill(parent, -1);
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, -1, 0, 1};
+        int count = 0;
+        int len =  positions.length;
+        for (int p = 0; p < len; p++) {
+            int x = positions[p][0];
+            int y = positions[p][1];
+            int u = x * n + y;
+            if (parent[u] == -1) {
+                makeSet(parent, u);
+                count++;
+                for (int k = 0; k < 4; k++) {
+                    int nx = x + dx[k];
+                    int ny = y + dy[k];
+                    int v = nx * n + ny;
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && parent[v] != -1) {
+                        if (union(parent, u, v))
+                            count--;
+                    }
+                }
+            }
+            result.add(count);
+        }
+        return result;
+    }
+    
+    public void makeSet(int[] parent, int u) {
+        parent[u] = u;
+    }
+    
+    public int find(int[] parent, int u) {
+        if (u == parent[u]) return u;
+        int root = find(parent, parent[u]);
+        parent[u] = root;
+        return root;
+    }
+    
+    public boolean union(int[] parent, int u, int v) {
+        int ru = find(parent, u);
+        int rv = find(parent, v);
+        if (ru == rv) {
+            return false;
+        } else {
+            parent[ru] = rv;
+            return true;
+        }
+    }
+}

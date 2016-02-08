@@ -50,4 +50,25 @@ public class Solution {
         return result;
     }
     
+    public List<String> helper(int n, int totalLen) {
+        List<String> result = new ArrayList<>();
+        String[] symmetricNums = {"0", "1", "8"};
+        if (n == 0) {
+            result.add("");
+        } else if (n == 1) {
+            result = new ArrayList<>(Arrays.asList(symmetricNums));
+        } else {
+            for (String str : helper(n - 2, totalLen)) {
+                if (n != totalLen) {
+                    result.add("0" + str + "0");
+                }
+                result.add("1" + str + "1");
+                result.add("6" + str + "9");
+                result.add("8" + str + "8");
+                result.add("9" + str + "6");
+            }
+        }
+         return result;
+    }
+    
 }

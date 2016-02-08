@@ -195,3 +195,43 @@ public class Solution {
     } 
     
 }
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<Integer> closestKValues(TreeNode root, double target, int k) {
+        Queue<Integer> queue = new LinkedList<>();
+        TreeNode top = root;
+        double minDiff = Double.MAX_VALUE;
+        Stack<TreeNode> stack = new Stack<>();
+        while (top != null || !stack.isEmpty()) {
+            while (top != null) {
+                stack.push(top);
+                top = top.left;
+            }
+            top = stack.pop();
+            if (queue.size() < k){
+                queue.offer(top.val);
+            } else {
+                double currDiff = Math.abs((double) top.val - target);
+                double firstDiff = Math.abs((double) queue.peek() - target);
+                if (currDiff < firstDiff) {
+                    queue.poll();
+                    queue.offer(top.val);
+                } else {
+                    break;
+                }
+            }
+            top = top.right;
+        }
+        return new LinkedList<>(queue);
+    }
+}

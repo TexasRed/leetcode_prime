@@ -72,4 +72,49 @@ public class Solution {
             dfs(list, buffer, idx+1, n, map);
         }
     }
+    
+    public int strobogrammaticInRange(String low, String high) {
+        int m = low.length(), n = high.length();
+        List<String> result = new ArrayList<String>();
+        for(int i=m; i<=n; i++){
+            result.addAll(helper(i, i));
+        }
+        int i=0;
+        int count=result.size();
+        while(i<result.size() && result.get(i).length()==low.length()){
+            if(result.get(i).compareTo(low)<0){
+                count--;
+            }
+            i++;
+        }
+        i=result.size()-1;
+        while(i>=0 && result.get(i).length()==high.length()){
+            if(result.get(i).compareTo(high)>0){
+                count--;
+            }
+            i--;
+        }
+        return count;
+    }
+    
+    public List<String> helper(int n, int totalLen) {
+        List<String> result = new ArrayList<>();
+        String[] symmetricNums = {"0", "1", "8"};
+        if (n == 0) {
+            result.add("");
+        } else if (n == 1) {
+            result = new ArrayList<>(Arrays.asList(symmetricNums));
+        } else {
+            for (String str : helper(n - 2, totalLen)) {
+                if (n != totalLen) {
+                    result.add("0" + str + "0");
+                }
+                result.add("1" + str + "1");
+                result.add("6" + str + "9");
+                result.add("8" + str + "8");
+                result.add("9" + str + "6");
+            }
+        }
+         return result;
+    }
 }

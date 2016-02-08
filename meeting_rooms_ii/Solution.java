@@ -74,3 +74,58 @@ public class Solution {
         return roomNum;
     }
 }
+
+
+
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+class Timestamp implements Comparable<Timestamp> {
+    int time;
+    boolean isEnd;
+    public Timestamp(int time, boolean isEnd) {
+        this.time = time;
+        this.isEnd = isEnd;
+    }
+    @Override
+    public int compareTo(Timestamp t) {
+        if (this.time < t.time) return -1;
+        else if (this.time > t.time) return 1;
+        else {
+            if (this.isEnd && !t.isEnd) { // different from max events
+                return -1;
+            } else if (!this.isEnd && t.isEnd) {
+                return 1;
+            } else return 0;
+        }
+        
+    }
+}
+
+public class Solution {
+    public int minMeetingRooms(Interval[] intervals) {
+        if (intervals == null || intervals.length == 0) return 0;
+        List<Timestamp> list = new ArrayList<>();
+        for (Interval interval : intervals) {
+            list.add(new Timestamp(interval.start, false));
+            list.add(new Timestamp(interval.end, true));
+        }
+        Collections.sort(list);
+        int count = 0; int maxEvents = Integer.MIN_VALUE;
+        for (Timestamp t : list) {
+            if (!t.isEnd) {
+                count++;
+            } else {
+                count--;
+            }
+            maxEvents = Math.max(maxEvents, count);
+        }
+        return maxEvents;
+    }
+}

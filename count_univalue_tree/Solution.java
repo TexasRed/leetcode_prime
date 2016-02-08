@@ -75,3 +75,59 @@ public class Solution {
         }
     }
 }
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class ResultType {
+    boolean isUnivalue;
+    int count;
+    public ResultType(boolean isUnivalue, int count) {
+        this.isUnivalue = isUnivalue;
+        this.count = count;
+    }
+}
+ 
+public class Solution {
+    public int countUnivalSubtrees(TreeNode root) {
+        return helper(root).count;
+    }
+    
+    public ResultType helper(TreeNode root) {
+        if (root == null) return new ResultType(true, 0);
+        ResultType rt1 = helper(root.left);
+        ResultType rt2 = helper(root.right);
+        int count = rt1.count + rt2.count;
+        boolean isUnivalue = false;
+        if (rt1.isUnivalue && rt2.isUnivalue) {
+           isUnivalue = checkUnivalue(root);
+           if (isUnivalue) count++;
+        }
+        return new ResultType(isUnivalue, count);
+    }
+    
+    public boolean checkUnivalue(TreeNode root) {
+        boolean isUnivalue = false;
+        if (root == null) return true;
+        if (root.left == null && root.right == null)
+            isUnivalue = true;
+        else if (root.right == null) {
+            if (root.val == root.left.val)
+                isUnivalue = true;
+        } else if (root.left == null) {
+            if (root.val == root.right.val)
+                isUnivalue = true;
+        } else {
+            if (root.val == root.left.val && root.val == root.right.val)
+                isUnivalue = true;
+        }
+        return isUnivalue;
+    }
+}

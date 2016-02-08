@@ -61,3 +61,60 @@ public class Vector2D {
  * Vector2D i = new Vector2D(vec2d);
  * while (i.hasNext()) v[f()] = i.next();
  */
+
+public class Vector2D {
+    int curr = 0;
+    List<Iterator<Integer>> iterators = new ArrayList<>();
+    public Vector2D(List<List<Integer>> vec2d) {
+        if (vec2d == null || vec2d.size() == 0) return;
+        for (List<Integer> vec : vec2d) {
+            if (vec != null) {
+                Iterator<Integer> itr = vec.iterator();
+                if (itr.hasNext())
+                    iterators.add(itr);
+            }
+        }
+    }
+
+    public int next() {
+        Iterator<Integer> itr = iterators.get(curr);
+        int retval = itr.next();
+        if (!itr.hasNext()) curr++;
+        return retval;
+    }
+
+    public boolean hasNext() {
+        return (curr < iterators.size() && iterators.get(curr).hasNext());
+    }
+    
+    //     Queue<Iterator<Integer>> queue = new LinkedList<>();
+    // Iterator<Integer> top = null;
+    // public Vector2D(List<List<Integer>> vec2d) {
+    //     for (List<Integer> vec : vec2d) {
+    //         Iterator<Integer> itr = vec.iterator();
+    //         if (itr != null && itr.hasNext()) {
+    //             if (top == null) top = itr;
+    //             queue.offer(itr);
+    //         }
+    //     }
+    // }
+
+    // public int next() {
+    //     return top.next();
+    // }
+
+    // public boolean hasNext() {
+    //     if (top == null)
+    //         return false;
+    //     else {
+    //         boolean retval = top.hasNext();
+    //         if (retval) return true;
+    //         while (!queue.isEmpty() && !queue.peek().hasNext()) {
+    //             queue.poll();
+    //         }
+    //         if (queue.isEmpty()) top = null;
+    //         else top = queue.peek();
+    //         return top != null;
+    //     }
+    // }
+}

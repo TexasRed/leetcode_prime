@@ -55,4 +55,29 @@ public class Solution {
         }
         return res;
     }
+    
+    public boolean isStrobogrammatic(String num) {
+        if (num == null || num.length() == 0) return false;
+        Map<Character, Character> hash = new HashMap<>();
+        hash.put('0', '0');
+        hash.put('1', '1');
+        hash.put('6', '9');
+        hash.put('8', '8');
+        hash.put('9', '6');
+        int i, j;
+        for (i = 0, j = num.length() - 1; i < j; i++, j--) {
+            char c = num.charAt(i);
+            char d = num.charAt(j);
+            if (!hash.containsKey(c) || !hash.containsKey(d))
+                return false;
+            if (hash.get(c) != d)
+                return false;
+        }
+        if (i != j)
+            return true;
+        else {
+            char middle = num.charAt(i);
+            return (middle == '0' || middle == '1' || middle == '8');
+        }
+    }
 }

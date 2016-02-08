@@ -42,3 +42,24 @@ public class Solution {
     }
     
 }
+
+
+public class Solution {
+    // traingle
+    public int threeSumSmaller(int[] nums, int target) {
+        if (nums == null || nums.length < 3) return 0;
+        int res = 0;
+        Arrays.sort(nums);
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1, k = n - 1; j < k; j++) {
+                while (j < k && nums[i] + nums[j] + nums[k] >= target) {
+                    k--;
+                }
+                res += k - j;
+                k = n - 1;
+            }
+        }
+        return res;
+    }
+}

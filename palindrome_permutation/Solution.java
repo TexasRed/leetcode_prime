@@ -51,3 +51,26 @@ public class Solution {
     }
     
 }
+
+
+public class Solution {
+    public boolean canPermutePalindrome(String s) {
+        if (s == null) return false;
+        if (s.length() == 0) return true;
+        Map<Character, Integer> hash = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (!hash.containsKey(c)) {
+                hash.put(c, 1);
+            } else {
+                hash.put(c, hash.get(c) + 1);
+            }
+        }
+        int oddNumCount = 0;
+        for (Integer count : hash.values()) {
+            if ((count & 1) == 1)
+                oddNumCount++;
+        }
+        return oddNumCount <= 1;
+    }
+}

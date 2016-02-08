@@ -97,3 +97,51 @@ public class Solution {
     }
     
 }
+
+
+public class Solution {
+    public boolean validTree(int n, int[][] edges) {
+        // Corner case: 
+        //  1 [] -> true
+        //  2 [] -> false
+        if (edges == null) return false;
+        int[] parent = new int[n];
+        for (int i = 0; i < n; i++) {
+            makeSet(parent, i);
+        }
+        for (int i = 0; i < edges.length; i++) {
+            if (!union(parent, edges[i][0], edges[i][1]))
+                return false;
+        }
+        Set<Integer> scc = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            scc.add(find(parent, i));
+        }
+        return scc.size() == 1;
+    }
+    
+    public void makeSet(int[] parent, int u) {
+        parent[u] = u;
+    }
+    
+    public int find(int[] parent, int u) {
+        if (parent[u] == u) {
+            return u;
+        } else {
+            int root = find(parent, parent[u]);
+            parent[u] = root;
+            return root;
+        }
+    }
+    
+    public boolean union(int[] parent, int u, int v) {
+        int ru = find(parent, u);
+        int rv = find(parent, v);
+        if (ru == rv) { // cycle detected!
+            return false;
+        } else {
+            parent[ru] = rv;
+            return true;
+        }
+    }
+}

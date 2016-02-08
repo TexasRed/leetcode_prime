@@ -55,6 +55,65 @@ public class WordDistance {
         }
         return minDistance;
     }
+    
+}
+
+// Your WordDistance object will be instantiated and called as such:
+// WordDistance wordDistance = new WordDistance(words);
+// wordDistance.shortest("word1", "word2");
+// wordDistance.shortest("anotherWord1", "anotherWord2");
+
+
+public class WordDistance {
+
+    Map<String, List<Integer>> hash;
+    public WordDistance(String[] words) {
+        this.hash = new HashMap<>();
+        if (words != null) {
+            for (int i = 0; i < words.length; i++) {
+                if (!hash.containsKey(words[i])) {
+                    hash.put(words[i], new ArrayList<>());
+                }
+                hash.get(words[i]).add(i);
+            }
+        }
+    }
+
+    public int shortest(String word1, String word2) {
+        List<Integer> indexes1 = hash.get(word1);
+        List<Integer> indexes2 = hash.get(word2);
+        int m = indexes1.size();
+        int n = indexes2.size();
+        int prevWordMode = -1; int prevIndex = -1;
+        int minDistance = Integer.MAX_VALUE;
+        int i, j;
+        for (i = 0, j = 0; i < m && j < n;) {
+            int indexA = indexes1.get(i);
+            int indexB = indexes2.get(j);
+            if (indexA < indexB) {
+                if (prevWordMode == 1) {
+                    minDistance = Math.min(minDistance, indexA - prevIndex);
+                }
+                prevIndex = indexA;
+                prevWordMode = 0;
+                i++;
+            } else {
+                if (prevWordMode == 0) {
+                    minDistance = Math.min(minDistance, indexB - prevIndex);
+                }
+                prevIndex = indexB;
+                prevWordMode = 1;
+                j++;
+            }
+        }
+        if (i < m && prevWordMode == 1) {
+            minDistance = Math.min(minDistance, indexes1.get(i) - prevIndex);
+        }
+        if (j < n && prevWordMode == 0) {
+            minDistance = Math.min(minDistance, indexes2.get(j) - prevIndex);
+        }
+        return minDistance;
+    }
 }
 
 // Your WordDistance object will be instantiated and called as such:

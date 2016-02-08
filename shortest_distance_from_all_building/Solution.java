@@ -75,3 +75,57 @@ public class Solution {
         return minDistance == Integer.MAX_VALUE ? -1 : minDistance;
     }
 }
+
+
+public class Solution {
+    public int shortestDistance(int[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) return -1;
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] canAchieve = new int[m][n];
+        int[][] total = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                canAchieve[i][j] = grid[i][j];
+            }
+        }
+        int[] dx = {-1,  0, 1, 0};
+        int[] dy = {0, -1, 0, 1};
+        int numOfBuildings = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    int[][] distance = new int[m][n];
+                    queue.offer(i * n + j);
+                    while (!queue.isEmpty()) {
+                        int size = queue.size();
+                        for (int p = 0; p < size; p++) {
+                            int pos = queue.poll();
+                            int currX = pos / n, currY = pos % n;
+                            for (int k = 0;  k < 4; k++) {
+                                int x = currX + dx[k];
+                                int y = currY + dy[k];
+                                if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 0 && canAchieve[x][y] == numOfBuildings) {
+                                    distance[x][y] = distance[currX][currY] + 1;
+                                    total[x][y] += distance[x][y];
+                                    queue.offer(x * n + y);
+                                    canAchieve[x][y]--;
+                                }
+                            }
+                        }
+                    }
+                    numOfBuildings--;
+                }
+            }
+        }
+        int minDistance = Integer.MAX_VALUE;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (canAchieve[i][j] == numOfBuildings)
+                    minDistance = Math.min(minDistance, total[i][j]);
+            }
+        }
+        return minDistance == Integer.MAX_VALUE ? -1 : minDistance;
+    }
+}

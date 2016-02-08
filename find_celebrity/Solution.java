@@ -34,3 +34,25 @@ public class Solution extends Relation {
 		return candidate;
 	}
 }
+
+/* The knows API is defined in the parent class Relation.
+boolean knows(int a, int b); */
+
+public class Solution extends Relation {
+	// O(3n)´Î call knows
+	public int findCelebrity(int n) {
+		if (n <= 0) return -1;
+		if (n == 1) return 0;
+		int a = 0;
+		for (int i = 1; i < n; i++) {
+			if (knows(a, i)) {
+				a = i;
+			}
+		}
+		for (int i = 0; i < n; i++) {
+			if (i == a) continue;
+			if (!knows(i, a) || knows(a, i)) return -1;
+		}
+		return a;
+	}
+}

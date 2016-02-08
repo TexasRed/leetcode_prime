@@ -73,3 +73,83 @@ public class Solution {
         return new ResultType(maxLenLocal, maxLenGlobal);
     }
 }
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ 
+class ResultType {
+    int globalMax;
+    int localMax;
+    public ResultType(int globalMax, int localMax) {
+        this.globalMax = globalMax;
+        this.localMax = localMax;
+    }
+}
+
+public class Solution {
+    public int longestConsecutive(TreeNode root) {
+        return helper(root).globalMax;
+    }
+    
+    public ResultType helper(TreeNode root) {
+        if (root == null) return new ResultType(0, 0);
+        ResultType rt1 = helper(root.left);
+        ResultType rt2 = helper(root.right);
+        int localMax, globalMax;
+        int leftLocalMax = (root.left != null && root.left.val == root.val + 1) ? rt1.localMax: 0;
+        int rightLocalMax = (root.right != null && root.right.val == root.val + 1) ? rt2.localMax : 0;
+        localMax = Math.max(leftLocalMax, rightLocalMax) + 1;
+        globalMax = Math.max(Math.max(rt1.globalMax, rt2.globalMax), localMax);
+        return new ResultType(globalMax, localMax);
+    }
+}
+    
+    // class ResultType {
+//     List<Integer> globalMax;
+//     List<Integer> localMax;
+//     public ResultType(List<Integer> globalMax, List<Integer> localMax) {
+//         this.globalMax = new ArrayList<>(globalMax);
+//         this.localMax = new ArrayList<>(localMax);
+//     }
+// }
+    
+    // public ResultType helper(TreeNode root) {
+    //     List<Integer> localMax = new ArrayList<>();
+    //     List<Integer> globalMax = new ArrayList<>();
+
+    //     if (root == null) 
+    //         return new ResultType(globalMax, localMax);
+        
+    //     ResultType rt1 = helper(root.left);
+    //     ResultType rt2 = helper(root.right);
+        
+    //     int leftLocalMaxLen = (root.left != null && root.left.val == root.val + 1) ? rt1.localMax.size(): 0;
+    //     int rightLocalMaxLen = (root.right != null && root.right.val == root.val + 1) ? rt2.localMax.size() : 0;
+        
+    //     if (leftLocalMaxLen < rightLocalMaxLen) {
+    //         localMax = new ArrayList<>(rt2.localMax);
+    //     }
+    //     if (leftLocalMaxLen > rightLocalMaxLen) {
+    //           localMax = new ArrayList<>(rt1.localMax);
+    //     }
+    //     localMax.add(root.val);
+
+    //     if (localMax.size() >= Math.max(rt1.globalMax.size(), rt2.globalMax.size())) {
+    //         globalMax = new ArrayList<>(localMax);
+    //     } else {
+    //       if (rt1.globalMax.size() > rt2.globalMax.size()) {
+    //         globalMax = new ArrayList<>(rt1.globalMax);
+    //       } else {
+    //         globalMax = new ArrayList<>(rt2.globalMax);
+    //       }
+    //     }       
+    //     return new ResultType(globalMax, localMax);
+    // }

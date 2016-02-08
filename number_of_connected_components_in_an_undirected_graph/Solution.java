@@ -62,3 +62,42 @@ public class Solution {
         return count;
     }
 }
+
+public class Solution {
+    public int countComponents(int n, int[][] edges) {
+        if (edges == null) return 0;
+        int[] parent = new int[n];
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            makeSet(parent, i);
+            count++;
+        }
+        for (int k = 0; k < edges.length; k++) {
+            int u = edges[k][0];
+            int v = edges[k][1];
+            if (union(parent, u, v)) {
+                count--;
+            }
+        }
+        return count;
+    }
+    
+    public void makeSet(int[] parent, int u) {
+        parent[u] = u;
+    }
+    
+    public int find(int[] parent, int u) {
+        if (u == parent[u]) return u;
+        int root = find(parent, parent[u]);
+        parent[u] = root;
+        return root;
+    }
+    
+    public boolean union(int[] parent, int u, int v) {
+        int ru = find(parent, u);
+        int rv = find(parent, v);
+        if (ru == rv) return false;
+        parent[ru] = rv;
+        return true;
+    }
+}

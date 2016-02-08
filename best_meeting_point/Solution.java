@@ -51,3 +51,39 @@ public class Solution {
         return minDistance;
     }
 }
+
+public class Solution {
+    public int minTotalDistance(int[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) return Integer.MAX_VALUE;
+        int m = grid.length; int n = grid[0].length;
+        List<Integer> rows = new ArrayList<>();
+        List<Integer> cols = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    rows.add(i);
+                    cols.add(j);
+                }
+            }
+        }
+        Collections.sort(rows);
+        Collections.sort(cols);
+        int x = rows.get(rows.size() / 2);
+        int y = cols.get(cols.size() / 2);
+        int distance = 0;
+        for (Integer row : rows) {
+            distance += Math.abs(x - row);
+        }
+        for (Integer col : cols) {
+            distance += Math.abs(y - col);
+        }
+        // for (int i = 0; i < m; i++) {
+        //     for (int j = 0; j < n; j++) {
+        //         if (grid[i][j] == 1) {
+        //             distance += Math.abs(x - i) + Math.abs(y - j);
+        //         }
+        //     }
+        // }
+        return distance;
+    }
+}

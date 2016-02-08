@@ -31,4 +31,18 @@ public class Solution {
         }
         return prev2;
     }
+    
+    public int numWays2(int n, int k) {
+        if (k <= 0 || n <= 0) return 0;
+        if (n == 1) return k;
+        int[] dp = new int[n];
+        dp[0] = k;
+        dp[1] = k * k;
+        // i)   j  j 最后两个相同，那么颜色必与第n - 2个不同
+        // i/j  j) m 最后两个不同，那么颜色必与第n - 1个不同
+        for (int i = 2; i < n; i++) {
+            dp[i] = (k - 1) * (dp[i - 1] + dp[i - 2]);
+        }
+        return dp[n - 1];
+    }
 }

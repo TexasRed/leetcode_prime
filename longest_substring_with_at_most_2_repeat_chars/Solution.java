@@ -38,3 +38,34 @@ public class Solution {
         return maxLen;
     }
 }
+
+
+public class Solution {
+    public int lengthOfLongestSubstringTwoDistinct(String s) {
+        if (s == null || s.length() == 0) return 0;
+        int n = s.length();
+        if (n <= 2) return n;
+        Map<Character, Integer> hash = new HashMap<>();
+        int maxLen = 1;
+        for (int i = 0, j = 0; j < n; j++) {
+            char c = s.charAt(j);
+            if (!hash.containsKey(c)) {
+                while (hash.size() >= 2) {
+                    char d = s.charAt(i);
+                    if (hash.get(d) == 1) {
+                        hash.remove(d);
+                    } else {
+                        hash.put(d, hash.get(d) - 1);
+                    }
+                    i++;
+                }
+                hash.put(c, 1);
+                
+            } else {
+                hash.put(c, hash.get(c) + 1);
+            }
+            maxLen = Math.max(maxLen, j - i + 1);
+        }
+        return maxLen;
+    }
+}

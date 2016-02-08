@@ -50,3 +50,37 @@ public class Solution {
         
     }
 }
+
+
+public class Solution {
+    public boolean isOneEditDistance(String s, String t) {
+        if (s == null || t == null || Math.abs(s.length() - t.length()) > 1) return false;
+        
+        int m = s.length(); int n = t.length();
+        if (m > n) {
+            return helper(s, t);
+        } else if (m < n){
+            return helper(t, s);
+        } else {
+            for (int i = 0, j = 0; i < m && j < n; i++, j++) {
+                char c = s.charAt(i);
+                char d = t.charAt(j);
+                if (c == d) continue;
+                else
+                    return s.substring(i + 1).equals(t.substring(j + 1));
+            }
+            return false;
+        }
+    }
+    
+    public boolean helper(String s, String t) {
+        int m = s.length(); int n = t.length();
+        for (int i = 0, j = 0; i < m && j < n; i++, j++) {
+            char c = s.charAt(i);
+            char d = t.charAt(j);
+            if (c == d) continue;
+            else return s.substring(i + 1).equals(t.substring(j));
+        }
+        return true;
+    }
+}

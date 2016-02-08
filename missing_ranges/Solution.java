@@ -39,3 +39,39 @@ public class Solution {
         }
     }
 }
+
+
+public class Solution {
+    public List<String> findMissingRanges(int[] nums, int lower, int upper) {
+        List<String> result = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            addInterval(lower - 1, upper + 1, result);
+            return result;
+        }
+        
+        int n = nums.length; 
+        
+        addInterval(lower - 1, nums[0], result);
+        for (int i = 1; i < n; i++) {
+            addInterval(nums[i - 1], nums[i], result);
+        }
+        addInterval(nums[n - 1], upper + 1, result);
+        
+        return result;
+    }
+    
+    public void addInterval(int start, int end, List<String> result) {
+        if (start + 1 < end) {
+            StringBuilder sb = new StringBuilder();
+            if (start + 2 == end) {
+                sb.append(start + 1);
+                result.add(sb.toString());
+            } else {
+                sb.append(start + 1);
+                sb.append("->");
+                sb.append(end - 1);
+                result.add(sb.toString());
+            }
+        }
+    }
+}

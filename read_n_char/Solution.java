@@ -36,3 +36,26 @@ public class Solution extends Reader4 {
 		return readBytes;
 	}
 }
+
+/* The read4 API is defined in the parent class Reader4.
+int read4(char[] buf); */
+
+public class Solution extends Reader4 {
+	/**
+	 * @param buf Destination buffer
+	 * @param n   Maximum number of characters to read
+	 * @return    The number of characters read
+	 */
+	public int read(char[] buf, int n) {
+		int len = 0; 
+		int count = 4;
+		while (len < n && count == 4) {
+			char[] temp = new char[4];
+			count = read4(temp);
+			int bytesToFill = Math.min(n - len, count);
+			System.arraycopy(temp, 0, buf, len, bytesToFill);
+			len += bytesToFill;
+		}
+		return len;
+	}
+}

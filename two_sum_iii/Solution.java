@@ -47,3 +47,37 @@ public class TwoSum {
 // TwoSum twoSum = new TwoSum();
 // twoSum.add(number);
 // twoSum.find(value);
+
+
+public class TwoSum {
+
+    List<Integer> list;
+    
+    public TwoSum() {
+        list = new ArrayList<>();
+    }
+
+    // Add the number to an internal data structure.
+	public void add(int number) {
+	    list.add(number);
+	}
+
+    // Find if there exists any pair of numbers which sum is equal to the value.
+	public boolean find(int value) {
+	    Set<Integer> set = new HashSet<>();
+	    for (int i = 0; i < list.size(); i++) {
+	        if (!set.contains(list.get(i))) {
+	            set.add(value - list.get(i));
+	        } else {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+}
+
+
+// Your TwoSum object will be instantiated and called as such:
+// TwoSum twoSum = new TwoSum();
+// twoSum.add(number);
+// twoSum.find(value);

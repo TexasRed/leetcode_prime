@@ -47,3 +47,36 @@ public class Solution {
         s[j] = temp;
     }
 }
+
+
+public class Solution {
+    public void reverseWords(char[] s) {
+        if (s == null || s.length == 0) return;
+        int n = s.length;
+        for (int i = 0, j = n - 1; i < j; i++, j--) {
+            swap(s, i, j);
+        }
+        int i, j;
+        for (i = 0, j = 0; j < n; j++) {
+            if (s[j] != ' ')
+                continue;
+            else {
+                reverse(s, i, j - 1);
+                i = j + 1;
+            }
+        }
+        reverse(s, i, j - 1);
+    }
+    
+    public void reverse(char[] s, int start, int end) {
+        for (int i = start, j = end; i < j; i++, j--) {
+            swap(s, i, j);
+        }
+    }
+    
+    public void swap(char[] s, int i, int j) {
+        char temp = s[i];
+        s[i] = s[j];
+        s[j] = temp;
+    }
+}

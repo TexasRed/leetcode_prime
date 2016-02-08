@@ -61,3 +61,47 @@ public class Solution {
         return new ResultType(rt.root, root);
     }
 }
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class ResultType {
+    TreeNode start;
+    TreeNode end;
+    public ResultType(TreeNode start, TreeNode end) {
+        this.start = start;
+        this.end = end;
+    }
+}
+
+public class Solution {
+    public TreeNode upsideDownBinaryTree(TreeNode root) {
+        return helper(root).start;
+    }
+    
+    public ResultType helper(TreeNode root) {
+        if (root == null || isLeaf(root))
+            return new ResultType(root, root);
+            
+        TreeNode oldRight = root.right;
+        ResultType rt = helper(root.left);
+        root.left = root.right = null;
+        rt.end.left = oldRight;
+        rt.end.right = root;
+        
+        return new ResultType(rt.start, root);
+    }
+    
+    public boolean isLeaf(TreeNode root) {
+        if (root == null) return false;
+        return root.left == null && root.right == null;
+    }
+    
+}

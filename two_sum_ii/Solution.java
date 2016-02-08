@@ -38,3 +38,24 @@ public class Solution {
         return res;
     }
 }
+
+public class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        int[] res = new int[2];
+        if (numbers == null || numbers.length < 2) return res;
+        int n = numbers.length;
+        for (int i = 0, j = n - 1; i < j;) {
+            int sum = numbers[i] + numbers[j];
+            if (sum == target) {
+                res[0] = i + 1;
+                res[1] = j + 1;
+                return res;
+            } else if (sum > target) {
+                j--;
+            } else {
+                i++;
+            }
+        }
+        return res;
+    }
+}

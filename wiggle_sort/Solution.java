@@ -40,4 +40,30 @@ public class Solution {
         A[i] = A[j];
         A[j] = temp;
     }
+    
+    public void wiggleSort2(int[] nums) {
+        if (nums == null || nums.length < 2) return;
+        if (nums.length == 2) {
+            Arrays.sort(nums);
+            return;
+        }
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            if ((i & 1) == 0) {
+                if (i < n - 1 && nums[i] > nums[i + 1]){
+                    swap(nums, i, i + 1);
+                }
+            } else {
+                if (i < n - 1 && nums[i] < nums[i + 1]) {
+                    swap(nums, i, i + 1);
+                }         
+            }
+        }
+    }
+    
+    private void swap(int[] A, int i, int j) {
+        A[i] ^= A[j];
+        A[j] ^= A[i];
+        A[i] ^= A[j];
+    }
 }

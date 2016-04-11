@@ -1,4 +1,4 @@
-## 320. Generalized Abbreviation My Submissions Question
+## 320. Generalized Abbreviation
 
 Write a function to generate the generalized abbreviations of a word.
 
